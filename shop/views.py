@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Category, Product
 from cart.forms import CartAddProductForm
-# login  Imports 
+# login  Imports
 from django.shortcuts import render ,redirect ,HttpResponse
 from django.views import View
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -11,35 +11,35 @@ from django.contrib.auth import authenticate ,login , logout
 from django.contrib.auth.decorators import login_required
 from django.core.mail import EmailMessage
 
-class RegisterViewnew(View) : 
-   
-    def post(self, request) : 
+class RegisterViewnew(View) :
+
+    def post(self, request) :
         if request.user.is_authenticated :
             return redirect('shop:product_list')
         else :
             form = CreateUserForm(request.POST)
-            if form.is_valid(): 
+            if form.is_valid():
                 print("User Created")
                 form.save()
                 user = form.cleaned_data.get("username")
                 messages.success(request , user +  "  User succesfully created " )
                 return redirect("shop:login_page")
-            
+
             print("At athat ")
             username = request.POST.get('username')
             password1 = request.POST.get('password1')
             password2= request.POST.get('password2')
-            if password1 != password2 : 
+            if password1 != password2 :
                 print("dont match ")
                 messages.error(request , "Password doesn't match ")
-            elif len(password1)<= 8 : 
+            elif len(password1)<= 8 :
                 messages.error(request , "Password length doesn't match or User already exists  ")
-             
+
             form = CreateUserForm()
             context = {"form" :form }
             return render(request , "shop/product/register.html" ,context)
-        
-    def get(self, request) : 
+
+    def get(self, request) :
         if request.user.is_authenticated :
             return redirect('shop:product_list')
         else :
@@ -49,33 +49,33 @@ class RegisterViewnew(View) :
 
 
 
-class LoginView(View) : 
-    
-    def get(self,request) : 
+class LoginView(View) :
+
+    def get(self,request) :
         if request.user.is_authenticated :
             return redirect('shop:product_list')
         else :
             context ={'form':AuthenticationForm(request)}
-            return render(request , "shop/product/login.html" , context) 
-        
+            return render(request , "shop/product/login.html" , context)
+
     def post(self,request) :
         if request.user.is_authenticated :
             return redirect('shop:product_list')
         else :
             username = request.POST.get('username')
             password = request.POST.get('password')
-            
+
             user = authenticate(request , username=username , password=password)
-            if user is not None : 
+            if user is not None :
                 login(request , user )
-                return redirect('shop:product_list')  
+                return redirect('shop:product_list')
             else :
                 messages.error(request ,"Username Or Password is Incorrect ")
                 context ={'form':AuthenticationForm(request)}
-                return render(request , "shop/product/login.html" , context) 
-    
+                return render(request , "shop/product/login.html" , context)
 
-def logoutUser(request) : 
+
+def logoutUser(request) :
     logout(request)
     return redirect('shop:login_page')
 
@@ -85,9 +85,12 @@ def FAQ(request) :
 def About(request) :
     return render(request, 'About.html', {})
 
+def profile(request) :
+    return render(request, 'profile.html')
 
 
-# So whenever you want auth to redirect page just use this decorator  
+
+# So whenever you want auth to redirect page just use this decorator
 @login_required(login_url="shop:login_page")
 def product_list(request, category_slug=None):
     category = None
