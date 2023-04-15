@@ -1,5 +1,5 @@
 from django.contrib import admin
-
+from .models import Profile
 # Register your models here.
 from django.contrib import admin
 from .models import Category, Product
@@ -18,3 +18,6 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ['available', 'created', 'updated']
     list_editable = ['price', 'available']
     prepopulated_fields = {'slug': ('name',)}
+
+admin.site.register(Profile)
+
