@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
+from PIL import Image
 
 
 class Category(models.Model):
@@ -56,5 +57,17 @@ class Profile(models.Model):
 
     def __str__(self):
         return f'{self.user.username} Profile' #show how we want it to be displayed
+    def save(self):
+        super().save()
+
+        img = Image.open(self.image.path)
+
+        if img.height > 300 or img.width > 300:
+            output_size = (300, 300)
+            img.thumbnail(output_size)
+            img.save(self.image.path)
+
+
+
 
 
