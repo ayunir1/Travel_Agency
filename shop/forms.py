@@ -24,7 +24,7 @@ class UserUpdateForm(forms.ModelForm):
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['image', 'biography']
+        fields = ['image', 'biography', 'preferences']
 
 
 # as far as I can tell this might be where I should start for dynamic email
