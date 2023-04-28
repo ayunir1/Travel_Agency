@@ -50,6 +50,7 @@ def order_create(request):
             return redirect(reverse('payment:process'))
 
     else:
+        print(request.GET)
         form = OrderCreateForm()
     return render(request,
                   'orders/order/create.html',
@@ -58,3 +59,7 @@ def order_create(request):
 
 def checkout_page(request):
     return None
+
+def book_order(request):
+    return render(request,
+                'orders/order/book.html')
