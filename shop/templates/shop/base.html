@@ -1,7 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head style="background-color: lavender">
   <meta charset="utf-8" />
   <title>{% block title %}Intergalactic Travel Agency{% endblock %}</title>
 
@@ -14,11 +14,11 @@
 
  <link href="{% static "css/base.css" %}" rel="stylesheet">
 </head>
-<body>
+<body style="background-color: lavender">
   <div id="header">
       <img src="\media\products\logo.png">&emsp;<big><font color="0c158a"><b><a href="http://127.0.0.1:8000/">Intergalactic Travel Agency</a></b></font></big>
   </div>
-  <div id="subheader">
+  <div id="subheader" style="background-color: lavender">
     {% if request.user.is_authenticated %}
     <div class="cart">
       {% with total_items=cart|length %}
@@ -35,7 +35,7 @@
     </div>
     {% endif %}
     <!-- For cart auth just move the cart div to user.isauthenticated -->
-    <div class="cart">
+    <div class="cart" style="background-color: lavender">
 
       {% if request.user.is_authenticated %}
        <a href="{% url 'shop:profile' %}">
@@ -61,7 +61,7 @@
 
     </div>
   </div>
-  <div id="content">
+  <div id="content" style="background-color: lavender">
     {% block content %}
     {% endblock %}
   </div>
@@ -70,7 +70,7 @@
 <footer>
 </footer>
 <br>
-  <div class="link-container">
+  <div class="link-container" style="background-color: lavender">
       <div>
           <h2> <a href = "FAQ" class="link">FAQ</a></h2>
       </div>
