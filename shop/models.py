@@ -57,7 +57,7 @@ class Profile(models.Model):
 
     def __str__(self):
         return f'{self.user.username} Profile' #show how we want it to be displayed
-    def save(self):
+    def save(self, **kwargs):
         super().save()
 
         img = Image.open(self.image.path)
