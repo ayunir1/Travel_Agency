@@ -49,3 +49,5 @@ Then migrate:
 python manage.py migrate
 Then runserver:
 python manage.py runserver
+
+test
