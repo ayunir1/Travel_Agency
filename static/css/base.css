@@ -116,6 +116,8 @@ ul.errorlist {
     padding:10px 100px;
     font-size:18px;
     overflow:auto;
+    display: flex;
+    align-items: center;
 }
 
 #subheader {
