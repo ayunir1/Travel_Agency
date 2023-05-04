@@ -58,7 +58,7 @@ def order_create(request):
 
 
 def checkout_page(request) :
-    return render(request, 'checkout_page.html', {})
+    return render(request, 'cart/templates/checkout_page.html', {})
 
 def book_order(request):
     return render(request,
