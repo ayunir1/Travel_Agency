@@ -33,6 +33,5 @@ def cart_detail(request):
                               'update': True})
     return render(request, 'cart/detail.html', {'cart': cart})
 
-def checkout_page(request) :
-    return render(request, 'checkout_page.html', {})
+
 

@@ -57,8 +57,8 @@ def order_create(request):
                   {'cart': cart, 'form': form})
 
 
-def checkout_page(request):
-    return None
+def checkout_page(request) :
+    return render(request, 'checkout_page.html', {})
 
 def book_order(request):
     return render(request,
