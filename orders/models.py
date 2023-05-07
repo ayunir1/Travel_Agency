@@ -1,6 +1,6 @@
 from django.db import models
 from shop.models import Product
-
+from datetime import datetime, date
 
 
 class Order(models.Model):
@@ -14,6 +14,8 @@ class Order(models.Model):
     updated = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False)
     braintree_id = models.CharField(max_length=150, blank=True)
+    purchase_date = models.DateField("Purchase Date(mm/dd/yy)", auto_now_add=False, auto_now=False, blank=True, null=True)
+    timestamp = models.DateField(auto_now_add=True, auto_now=False, blank=True)
 
     class Meta:
         ordering = ('-created',)
