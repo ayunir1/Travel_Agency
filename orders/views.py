@@ -9,7 +9,11 @@ from .models import Order
 from django.conf import settings
 from django.http import HttpResponse
 from django.template.loader import render_to_string
-#import weasyprint
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+
+
+# import weasyprint
 
 @staff_member_required
 def admin_order_pdf(request, order_id):
@@ -20,9 +24,10 @@ def admin_order_pdf(request, order_id):
     response['Content-Disposition'] = 'filename=\
         "order_{}.pdf"'.format(order.id)
     weasyprint.HTML(string=html).write_pdf(response,
-        stylesheets=[weasyprint.CSS(
-            settings.STATIC_ROOT + 'css/pdf.css')])
+                                           stylesheets=[weasyprint.CSS(
+                                               settings.STATIC_ROOT + 'css/pdf.css')])
     return response
+
 
 @staff_member_required
 def admin_order_detail(request, order_id):
@@ -31,12 +36,16 @@ def admin_order_detail(request, order_id):
                   'admin/orders/order/detail.html',
                   {'order': order})
 
+
+@login_required
 def order_create(request):
     cart = Cart(request)
     if request.method == 'POST':
         form = OrderCreateForm(request.POST)
         if form.is_valid():
-            order = form.save()
+            order = form.save(commit=False)
+            order.user = request.user  # set the user field
+            order.save()
             for item in cart:
                 OrderItem.objects.create(order=order,
                                          product=item['product'],
@@ -50,7 +59,6 @@ def order_create(request):
             return redirect(reverse('payment:process'))
 
     else:
-        print(request.GET)
         form = OrderCreateForm()
     return render(request,
                   'orders/order/create.html',
@@ -60,6 +68,7 @@ def order_create(request):
 def checkout_page(request):
     return None
 
+
 def book_order(request):
     return render(request,
-                'orders/order/book.html')
+                  'orders/order/book.html')

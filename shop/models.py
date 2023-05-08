@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
 from PIL import Image
+from orders.models import Order
 
 
 class Category(models.Model):
@@ -19,8 +20,8 @@ class Category(models.Model):
         return self.name
 
     def get_absolute_url(self):
-            return reverse('shop:product_list_by_category',
-                           args=[self.slug])
+        return reverse('shop:product_list_by_category',
+                       args=[self.slug])
 
 
 class Product(models.Model):
@@ -46,17 +47,32 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse('shop:product_detail',
-                           args=[self.id, self.slug])
+                       args=[self.id, self.slug])
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE) # Delete profile when user is deleted
+    user = models.OneToOneField(User, on_delete=models.CASCADE)  # Delete profile when user is deleted
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
     biography = models.TextField(default='Tell us about yourself')
     preferences = models.TextField(default='Describe your travel preferences')
 
+    def get_orders(self):
+        return Order.objects.filter(user=self.user)
+
+    def get_orders_with_details(self):
+        orders = Order.objects.filter(user=self.user)
+        order_details = []
+        for order in orders:
+            order_items = OrderItem.objects.filter(order=order)
+            order_details.append({'order': order, 'items': order_items})
+        for order_detail in order_details:
+            for item in order_detail['items']:
+                item.product_name = Product.objects.get(id=item.product_id).name
+        return order_details
+
     def __str__(self):
-        return f'{self.user.username} Profile' #show how we want it to be displayed
+        return f'{self.user.username} Profile'  # show how we want it to be displayed
+
     def save(self, **kwargs):
         super().save()
 
@@ -66,8 +82,3 @@ class Profile(models.Model):
             output_size = (300, 300)
             img.thumbnail(output_size)
             img.save(self.image.path)
-
-
-
-
-
