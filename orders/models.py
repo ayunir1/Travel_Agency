@@ -1,6 +1,7 @@
 from django.db import models
 from shop.models import Product
-
+from datetime import datetime, date
+from django.utils import timezone
 
 
 class Order(models.Model):
@@ -14,6 +15,8 @@ class Order(models.Model):
     updated = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False)
     braintree_id = models.CharField(max_length=150, blank=True)
+    travel_date = models.DateField(default=timezone.now)
+    travel_time = models.CharField(default='', max_length=15)
 
     class Meta:
         ordering = ('-created',)

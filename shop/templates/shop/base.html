@@ -15,9 +15,10 @@
  <link href="{% static "css/base.css" %}" rel="stylesheet">
 </head>
 <body style="background-color: lavender">
-  <div id="header">
-      <img src="\media\products\logo.png">&emsp;<big><font color="0c158a"><b><a href="http://127.0.0.1:8000/">Intergalactic Travel Agency</a></b></font></big>
-  </div>
+<div id="header" style="display: flex; align-items: left;">
+  <a href="/" style="margin-right: 10px;"> <img src="\media\products\logo.png" style="height: 50px;"></a>
+  <h1 style="color: #0c158a; font-weight: bold; font-size: 36px; margin: 0;"><a href="/" style="color: #0c158a; text-decoration: none;">Intergalactic Travel Agency</a></h1>
+</div>
   <div id="subheader" style="background-color: lavender">
     {% if request.user.is_authenticated %}
     <div class="cart">
