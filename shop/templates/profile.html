@@ -13,11 +13,15 @@
             <p class="fa-align-justify">{{ user.profile.biography }}</p>
             <p class="fa-align-justify">{{ user.profile.preferences }}</p>
         </div>
-        <div>
+        <div class="orders">
             <h1>Orders</h1>
-            {% for order in user.profile.get_orders %}
-            Order #{{ order.id }} - {{ order.travel_date }}
-            {% endfor %}
+             {% for order in user.profile.get_orders %}
+             <p>Order #{{ order.id }}</p>
+             <p>Travel Date: {{ order.travel_date }}</p>
+             {% for item in order.items.all %}
+             <p>Item: {{ item.product.name }}</p>
+             {% endfor %}
+             <p>Total: ${{ order.get_total_cost }}</p> {% endfor %}
         </div>
     </div>
     <form method="POST" enctype="multipart/form-data">
@@ -32,4 +36,19 @@
         </div>
     </form>
 </div>
+<style>
+    .orders {
+        background-color: lightblue;
+        border-radius: 15px;
+    }
+
+</style>
 {% endblock content %}
+
+
+
+
+
+
+
+
